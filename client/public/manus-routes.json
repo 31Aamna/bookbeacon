@@ -1,0 +1,24 @@
+{
+  "routes": [
+    { "path": "/", "title": "Home" },
+    { "path": "/login", "title": "Sign in" },
+    { "path": "/register", "title": "Create account" },
+    { "path": "/student/dashboard", "title": "Student dashboard" },
+    { "path": "/books", "title": "Search books" },
+    { "path": "/books/:id", "title": "Book details" },
+    { "path": "/borrowed", "title": "My borrowed books" },
+    { "path": "/due-fines", "title": "Due dates and fines" },
+    { "path": "/map", "title": "Library map" },
+    { "path": "/scan", "title": "Scan a QR code" },
+    { "path": "/profile", "title": "My profile" },
+    { "path": "/librarian/dashboard", "title": "Librarian dashboard" },
+    { "path": "/librarian/books", "title": "Manage books" },
+    { "path": "/librarian/copies", "title": "Manage copies" },
+    { "path": "/librarian/users", "title": "Manage users" },
+    { "path": "/librarian/circulation", "title": "Circulation" },
+    { "path": "/librarian/inventory", "title": "Inventory audit" },
+    { "path": "/librarian/misplaced", "title": "Misplaced books" },
+    { "path": "/librarian/scans", "title": "Scan logs" },
+    { "path": "/librarian/reports", "title": "Reports" }
+  ]
+}

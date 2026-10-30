@@ -1,0 +1,9 @@
+packages:
+  - client
+
+allowBuilds:
+  esbuild: true
+  '@swc/core': false
+
+minimumReleaseAgeExclude:
+  - lucide-react@1.64.0

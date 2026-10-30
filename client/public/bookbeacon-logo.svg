@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">BookBeacon mark</title>
+  <rect width="64" height="64" rx="16" fill="#103B4A"/>
+  <path d="M18 17.5c5.1-2.2 10.1-1.7 14 1.2v30.8c-4-2.9-8.9-3.4-14-1.2V17.5Z" fill="#F5F7FA"/>
+  <path d="M46 17.5c-5.1-2.2-10.1-1.7-14 1.2v30.8c4-2.9 8.9-3.4 14-1.2V17.5Z" fill="#DCEBE8"/>
+  <path d="M22 24c2.9-.7 5.3-.3 7.5 1.1M22 30c2.9-.7 5.3-.3 7.5 1.1M42 24c-2.9-.7-5.3-.3-7.5 1.1M42 30c-2.9-.7-5.3-.3-7.5 1.1" fill="none" stroke="#176B78" stroke-linecap="round" stroke-width="2.2"/>
+  <path d="M48.5 16.5v7" stroke="#CDAE78" stroke-linecap="round" stroke-width="2.5"/>
+  <circle cx="48.5" cy="13" r="4" fill="#CDAE78"/>
+</svg>

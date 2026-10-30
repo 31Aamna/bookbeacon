@@ -1,0 +1,26 @@
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight, BookOpen, MapPin, QrCode } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getBookById } from '../services/bookService.js';
+import { useApp } from '../hooks/useApp.js';
+import { formatDateTime } from '../utils/dateUtils.js';
+import { formatLocationBreadcrumb } from '../services/locationService.js';
+import { BookCover } from '../components/books/BookCard.jsx';
+import Button from '../components/common/Button.jsx';
+import StatusBadge from '../components/common/StatusBadge.jsx';
+import { EmptyState, ErrorState, LoadingSpinner, PageHeading } from '../components/common/States.jsx';
+
+export default function BookDetailsPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { revision } = useApp();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  useEffect(() => { let active = true; setLoading(true); getBookById(id).then((value) => { if (active) setBook(value); }).catch((issue) => { if (active) setError(issue.message); }).finally(() => { if (active) setLoading(false); }); return () => { active = false; }; }, [id, revision]);
+  if (loading) return <LoadingSpinner label="Loading book details…" />;
+  if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
+  if (!book) return <EmptyState title="Book not found" description="This title is no longer in the catalogue." action={{ label: 'Back to search', onClick: () => navigate('/books') }} />;
+  const findCopy = (copy) => navigate('/map', { state: { copy: { ...copy, book } } });
+  return <div className="book-details-page"><Link to="/books" className="back-link"><ArrowLeft size={15} />Back to catalogue</Link><PageHeading eyebrow={`${book.category} · ${book.publicationYear || 'Edition not listed'}`} title={book.title} description={book.authors.join(', ')} action={<StatusBadge status={book.availableCopies ? 'available' : 'unavailable'} label={`${book.availableCopies} of ${book.totalCopies} available`} />} /><div className="book-detail-layout"><div className="book-detail-main"><section className="panel-card book-overview"><BookCover book={book} /><div><span className="eyebrow">ABOUT THIS TITLE</span><h2>{book.title}</h2><p className="book-overview__desc">{book.description}</p><dl className="book-metadata"><div><dt>Author</dt><dd>{book.authors.join(', ')}</dd></div><div><dt>ISBN</dt><dd>{book.isbn}</dd></div><div><dt>Category</dt><dd>{book.category}</dd></div><div><dt>Publisher</dt><dd>{book.publisher || 'Not listed'}</dd></div><div><dt>Publication year</dt><dd>{book.publicationYear || 'Not listed'}</dd></div></dl></div></section><section className="panel-card copy-panel"><div className="panel-card__heading"><div><span className="eyebrow">INDIVIDUAL PHYSICAL COPIES</span><h2>Choose a copy to locate</h2></div><span className="copy-count">{book.availableCopies} available</span></div><p className="muted">Copies of one title may have different availability and shelf locations.</p>{book.copies?.length ? <div className="copy-list">{book.copies.map((copy) => <article className="copy-row" key={copy.id}><span><strong>{copy.id}</strong><small>QR identifier · {copy.qrCode}</small><small>{formatLocationBreadcrumb(copy.location)}</small><small>Last recorded scan · {formatDateTime(copy.lastScannedAt)}</small></span><span className="copy-row__end"><StatusBadge status={copy.status.toLowerCase()} />{copy.status === 'AVAILABLE' ? <Button variant="secondary" size="sm" icon={MapPin} onClick={() => findCopy(copy)}>Find on map</Button> : null}</span></article>)}</div> : <EmptyState title="No physical copies are registered" description="Check back with the library team for availability." />}{book.availableCopies === 0 ? <div className="notice notice--warning"><BookOpen size={17} />No copies are currently available. This page does not submit a borrow request.</div> : null}</section></div><aside className="book-detail-aside"><section className="panel-card availability-card"><span className="eyebrow">COLLECTION STATUS</span><strong>{book.availableCopies ? `${book.availableCopies} copy${book.availableCopies === 1 ? '' : 'ies'} available` : 'Currently unavailable'}</strong><p>{book.totalCopies} physical copies registered across the library.</p><div className="availability-card__bar"><i style={{ width: `${book.totalCopies ? (book.availableCopies / book.totalCopies) * 100 : 0}%` }} /></div><span className="muted">Availability is from demo catalogue data.</span></section><section className="panel-card find-help"><span className="find-help__icon"><MapPin size={19} /></span><h3>Find it on the map</h3><p>Select any available physical copy to see its exact registered shelf.</p><Button variant="primary" className="full-width" icon={MapPin} onClick={() => book.copies?.some((copy) => copy.status === 'AVAILABLE') ? findCopy(book.copies.find((copy) => copy.status === 'AVAILABLE')) : null} disabled={!book.availableCopies}>Open library map <ArrowRight size={15} /></Button></section><div className="detail-demo-note"><QrCode size={15} /><span>QR identifiers and shelf verification are simulated in this frontend prototype.</span></div></aside></div></div>;
+}

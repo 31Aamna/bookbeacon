@@ -1,0 +1,10 @@
+{
+  "name": "bookbeacon-workspace",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "pnpm --dir client dev",
+    "build": "pnpm --dir client build",
+    "preview": "pnpm --dir client preview"
+  }
+}

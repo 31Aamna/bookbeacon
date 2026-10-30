@@ -1,0 +1,13 @@
+.env
+.env.*
+**/.env
+**/.env.*
+server/
+*.db
+*.sqlite
+*.sqlite3
+plan.md
+TODO.md
+node_modules/
+**/node_modules/
+dist/
