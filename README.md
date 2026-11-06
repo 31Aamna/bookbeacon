@@ -2,7 +2,6 @@
 
 A full-stack library management system with a React frontend, Flask REST API backend, and SQLite database.
 
-**Live website:** [https://bookbeacon-phi.vercel.app](https://bookbeacon-phi.vercel.app)
 
 ## Architecture
 
